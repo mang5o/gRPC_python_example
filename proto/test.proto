@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+message TestRequest{
+  double test_double = 1;
+  float test_float = 2;
+  int32 test_int32 = 3;
+  int64 test_int64 = 4;
+  uint32 test_uint32 = 5;
+  uint64 test_uint64 = 6;
+  sint32 test_sint32 = 7;
+  sint64 test_sint64 = 8;
+  fixed32 test_fixed32 = 9;
+  fixed64 test_fixed64 = 10;
+  sfixed32 test_sfixed32 = 11;
+  sfixed64 test_sfixed64 = 12;
+  bool test_bool = 13;
+  string test_string = 14;
+  bytes test_bytes = 15;
+  enum TestEnum{
+    ENUMVAL1 = 0;
+    ENUMVAL2 = 1;
+    ENUMVAL3 = 2;
+    ENUMVAL4 = 3;
+  }
+  TestEnum test_enum = 16;
+  repeated string test_repeat_string = 17;
+}
+
+message TestResponse{
+  string response_string = 1;
+}
+
+service TestService {
+  rpc Test(TestRequest) returns (TestResponse);
+  rpc TestStream(stream TestRequest) returns (stream TestResponse);
+}
+
+service TestService2 {
+  rpc Test(TestRequest) returns (TestResponse) {};
+  rpc TestStream(stream TestRequest) returns (stream TestResponse) {};
+}
