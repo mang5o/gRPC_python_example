@@ -16,12 +16,12 @@ def test(test_request):
 def testStream(test_requests):
     channel = grpc.insecure_channel('localhost:1106')
     stub = test_pb2_grpc.TestServiceStub(channel)
-    responses = stub.TestStream(streamYield(test_requests))
+    responses = stub.TestStream(stream_yield(test_requests))
     for response in responses:
         print("Test client received: " + response.response_string)
 
 
-def streamYield(test_requests):
+def stream_yield(test_requests):
     for test_request in test_requests:
         yield test_request
 
