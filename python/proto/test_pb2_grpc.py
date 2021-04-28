@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from proto import test_pb2 as proto_dot_test__pb2
+import test_pb2 as test__pb2
 
 
 class TestServiceStub(object):
@@ -16,13 +16,53 @@ class TestServiceStub(object):
         """
         self.Test = channel.unary_unary(
                 '/TestService/Test',
-                request_serializer=proto_dot_test__pb2.TestRequest.SerializeToString,
-                response_deserializer=proto_dot_test__pb2.TestResponse.FromString,
+                request_serializer=test__pb2.TestRequest.SerializeToString,
+                response_deserializer=test__pb2.TestResponse.FromString,
                 )
         self.TestStream = channel.stream_stream(
                 '/TestService/TestStream',
-                request_serializer=proto_dot_test__pb2.TestRequest.SerializeToString,
-                response_deserializer=proto_dot_test__pb2.TestResponse.FromString,
+                request_serializer=test__pb2.TestRequest.SerializeToString,
+                response_deserializer=test__pb2.TestResponse.FromString,
+                )
+        self.Upload = channel.stream_unary(
+                '/TestService/Upload',
+                request_serializer=test__pb2.FileChunk.SerializeToString,
+                response_deserializer=test__pb2.TestResponse.FromString,
+                )
+        self.Download = channel.unary_stream(
+                '/TestService/Download',
+                request_serializer=test__pb2.TestRequest.SerializeToString,
+                response_deserializer=test__pb2.FileChunk.FromString,
+                )
+        self.NestedTest = channel.unary_unary(
+                '/TestService/NestedTest',
+                request_serializer=test__pb2.NestedData.SerializeToString,
+                response_deserializer=test__pb2.NestedData.FromString,
+                )
+        self.RefNestedTest = channel.unary_unary(
+                '/TestService/RefNestedTest',
+                request_serializer=test__pb2.RefNested.SerializeToString,
+                response_deserializer=test__pb2.RefNested.FromString,
+                )
+        self.OneOfTest = channel.unary_unary(
+                '/TestService/OneOfTest',
+                request_serializer=test__pb2.OneOf.SerializeToString,
+                response_deserializer=test__pb2.OneOf.FromString,
+                )
+        self.NotFilledTest = channel.unary_unary(
+                '/TestService/NotFilledTest',
+                request_serializer=test__pb2.NotFilled.SerializeToString,
+                response_deserializer=test__pb2.NotFilled.FromString,
+                )
+        self.MapTest = channel.unary_unary(
+                '/TestService/MapTest',
+                request_serializer=test__pb2.MapMsg.SerializeToString,
+                response_deserializer=test__pb2.MapMsg.FromString,
+                )
+        self.ImportTest = channel.unary_unary(
+                '/TestService/ImportTest',
+                request_serializer=test__pb2.importMsg.SerializeToString,
+                response_deserializer=test__pb2.importMsg.FromString,
                 )
 
 
@@ -41,18 +81,106 @@ class TestServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Upload(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Download(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def NestedTest(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RefNestedTest(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def OneOfTest(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def NotFilledTest(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def MapTest(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ImportTest(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TestServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Test': grpc.unary_unary_rpc_method_handler(
                     servicer.Test,
-                    request_deserializer=proto_dot_test__pb2.TestRequest.FromString,
-                    response_serializer=proto_dot_test__pb2.TestResponse.SerializeToString,
+                    request_deserializer=test__pb2.TestRequest.FromString,
+                    response_serializer=test__pb2.TestResponse.SerializeToString,
             ),
             'TestStream': grpc.stream_stream_rpc_method_handler(
                     servicer.TestStream,
-                    request_deserializer=proto_dot_test__pb2.TestRequest.FromString,
-                    response_serializer=proto_dot_test__pb2.TestResponse.SerializeToString,
+                    request_deserializer=test__pb2.TestRequest.FromString,
+                    response_serializer=test__pb2.TestResponse.SerializeToString,
+            ),
+            'Upload': grpc.stream_unary_rpc_method_handler(
+                    servicer.Upload,
+                    request_deserializer=test__pb2.FileChunk.FromString,
+                    response_serializer=test__pb2.TestResponse.SerializeToString,
+            ),
+            'Download': grpc.unary_stream_rpc_method_handler(
+                    servicer.Download,
+                    request_deserializer=test__pb2.TestRequest.FromString,
+                    response_serializer=test__pb2.FileChunk.SerializeToString,
+            ),
+            'NestedTest': grpc.unary_unary_rpc_method_handler(
+                    servicer.NestedTest,
+                    request_deserializer=test__pb2.NestedData.FromString,
+                    response_serializer=test__pb2.NestedData.SerializeToString,
+            ),
+            'RefNestedTest': grpc.unary_unary_rpc_method_handler(
+                    servicer.RefNestedTest,
+                    request_deserializer=test__pb2.RefNested.FromString,
+                    response_serializer=test__pb2.RefNested.SerializeToString,
+            ),
+            'OneOfTest': grpc.unary_unary_rpc_method_handler(
+                    servicer.OneOfTest,
+                    request_deserializer=test__pb2.OneOf.FromString,
+                    response_serializer=test__pb2.OneOf.SerializeToString,
+            ),
+            'NotFilledTest': grpc.unary_unary_rpc_method_handler(
+                    servicer.NotFilledTest,
+                    request_deserializer=test__pb2.NotFilled.FromString,
+                    response_serializer=test__pb2.NotFilled.SerializeToString,
+            ),
+            'MapTest': grpc.unary_unary_rpc_method_handler(
+                    servicer.MapTest,
+                    request_deserializer=test__pb2.MapMsg.FromString,
+                    response_serializer=test__pb2.MapMsg.SerializeToString,
+            ),
+            'ImportTest': grpc.unary_unary_rpc_method_handler(
+                    servicer.ImportTest,
+                    request_deserializer=test__pb2.importMsg.FromString,
+                    response_serializer=test__pb2.importMsg.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -76,8 +204,8 @@ class TestService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TestService/Test',
-            proto_dot_test__pb2.TestRequest.SerializeToString,
-            proto_dot_test__pb2.TestResponse.FromString,
+            test__pb2.TestRequest.SerializeToString,
+            test__pb2.TestResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -93,8 +221,144 @@ class TestService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.stream_stream(request_iterator, target, '/TestService/TestStream',
-            proto_dot_test__pb2.TestRequest.SerializeToString,
-            proto_dot_test__pb2.TestResponse.FromString,
+            test__pb2.TestRequest.SerializeToString,
+            test__pb2.TestResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Upload(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/TestService/Upload',
+            test__pb2.FileChunk.SerializeToString,
+            test__pb2.TestResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Download(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/TestService/Download',
+            test__pb2.TestRequest.SerializeToString,
+            test__pb2.FileChunk.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def NestedTest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TestService/NestedTest',
+            test__pb2.NestedData.SerializeToString,
+            test__pb2.NestedData.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RefNestedTest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TestService/RefNestedTest',
+            test__pb2.RefNested.SerializeToString,
+            test__pb2.RefNested.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def OneOfTest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TestService/OneOfTest',
+            test__pb2.OneOf.SerializeToString,
+            test__pb2.OneOf.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def NotFilledTest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TestService/NotFilledTest',
+            test__pb2.NotFilled.SerializeToString,
+            test__pb2.NotFilled.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def MapTest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TestService/MapTest',
+            test__pb2.MapMsg.SerializeToString,
+            test__pb2.MapMsg.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ImportTest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TestService/ImportTest',
+            test__pb2.importMsg.SerializeToString,
+            test__pb2.importMsg.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -110,13 +374,13 @@ class TestService2Stub(object):
         """
         self.Test = channel.unary_unary(
                 '/TestService2/Test',
-                request_serializer=proto_dot_test__pb2.TestRequest.SerializeToString,
-                response_deserializer=proto_dot_test__pb2.TestResponse.FromString,
+                request_serializer=test__pb2.TestRequest.SerializeToString,
+                response_deserializer=test__pb2.TestResponse.FromString,
                 )
         self.TestStream = channel.stream_stream(
                 '/TestService2/TestStream',
-                request_serializer=proto_dot_test__pb2.TestRequest.SerializeToString,
-                response_deserializer=proto_dot_test__pb2.TestResponse.FromString,
+                request_serializer=test__pb2.TestRequest.SerializeToString,
+                response_deserializer=test__pb2.TestResponse.FromString,
                 )
 
 
@@ -140,13 +404,13 @@ def add_TestService2Servicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Test': grpc.unary_unary_rpc_method_handler(
                     servicer.Test,
-                    request_deserializer=proto_dot_test__pb2.TestRequest.FromString,
-                    response_serializer=proto_dot_test__pb2.TestResponse.SerializeToString,
+                    request_deserializer=test__pb2.TestRequest.FromString,
+                    response_serializer=test__pb2.TestResponse.SerializeToString,
             ),
             'TestStream': grpc.stream_stream_rpc_method_handler(
                     servicer.TestStream,
-                    request_deserializer=proto_dot_test__pb2.TestRequest.FromString,
-                    response_serializer=proto_dot_test__pb2.TestResponse.SerializeToString,
+                    request_deserializer=test__pb2.TestRequest.FromString,
+                    response_serializer=test__pb2.TestResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -170,8 +434,8 @@ class TestService2(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TestService2/Test',
-            proto_dot_test__pb2.TestRequest.SerializeToString,
-            proto_dot_test__pb2.TestResponse.FromString,
+            test__pb2.TestRequest.SerializeToString,
+            test__pb2.TestResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -187,7 +451,7 @@ class TestService2(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.stream_stream(request_iterator, target, '/TestService2/TestStream',
-            proto_dot_test__pb2.TestRequest.SerializeToString,
-            proto_dot_test__pb2.TestResponse.FromString,
+            test__pb2.TestRequest.SerializeToString,
+            test__pb2.TestResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

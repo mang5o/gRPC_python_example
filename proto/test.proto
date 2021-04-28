@@ -1,4 +1,5 @@
 syntax = "proto3";
+import 'import.proto';
 
 message TestRequest{
   double test_double = 1;
@@ -30,9 +31,55 @@ message TestResponse{
   string response_string = 1;
 }
 
+message FileChunk{
+  bytes file_bytes = 1;
+}
+
+message NestedData{
+  message NestedElem{
+    string nested_string = 1;
+    repeated string nested_repeated_string = 2;
+  }
+  NestedElem nested_elem = 1;
+}
+
+message RefNested{
+  NestedData.NestedElem nested_elem = 1;
+}
+
+message OneOf{
+  oneof oneof_test{
+    string one_of_string = 1;
+    float one_of_float = 2;
+  }
+}
+
+message NotFilled{
+  string first = 4;
+  float second = 10;
+}
+
+message MapMsg{
+  map<string, float> firstMap = 1;
+}
+
+message importMsg{
+  import_proto.importedMessage imported_message = 1;
+}
+
+
+
 service TestService {
   rpc Test(TestRequest) returns (TestResponse);
   rpc TestStream(stream TestRequest) returns (stream TestResponse);
+  rpc Upload(stream FileChunk) returns(TestResponse);
+  rpc Download(TestRequest) returns(stream FileChunk);
+  rpc NestedTest(NestedData) returns (NestedData);
+  rpc RefNestedTest(RefNested) returns (RefNested);
+  rpc OneOfTest(OneOf) returns (OneOf);
+  rpc NotFilledTest(NotFilled) returns (NotFilled);
+  rpc MapTest(MapMsg) returns (MapMsg);
+  rpc ImportTest(importMsg) returns (importMsg);
 }
 
 service TestService2 {

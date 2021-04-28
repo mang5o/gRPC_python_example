@@ -1,0 +1,1 @@
+python -m grpc_tools.protoc -I ./proto --proto_path=./proto --python_out=./python/proto --grpc_python_out=./python/proto  ./proto/test.proto ./proto/import.proto
