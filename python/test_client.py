@@ -25,7 +25,7 @@ def test_stream(test_requests):
         print("Test client received: " + response.response_string)
 
 
-def streamYield(test_requests):
+def stream_yield(test_requests):
     for test_request in test_requests:
         yield test_request
 
